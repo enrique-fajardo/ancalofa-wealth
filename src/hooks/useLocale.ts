@@ -21,20 +21,19 @@ function getNestedValue(obj: Record<string, unknown>, key: string): string {
   return typeof current === 'string' ? current : key;
 }
 
-function getInitialLocale(): Locale {
-  if (typeof window !== 'undefined') {
-    return (localStorage.getItem('locale') as Locale) || 'es';
-  }
-  return 'es';
-}
-
 export function useLocale() {
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+  // Always start with 'es' — matches the server render, avoids hydration mismatch.
+  // useEffect then syncs from localStorage after mount.
+  const [locale, setLocaleState] = useState<Locale>('es');
 
   useEffect(() => {
+    // Sync from localStorage on first mount
+    const stored = (localStorage.getItem('locale') as Locale) || 'es';
+    if (stored !== 'es') setLocaleState(stored);
+
     const handler = () => {
-      const stored = (localStorage.getItem('locale') as Locale) || 'es';
-      setLocaleState(stored);
+      const val = (localStorage.getItem('locale') as Locale) || 'es';
+      setLocaleState(val);
     };
     window.addEventListener('localeChanged', handler);
     return () => window.removeEventListener('localeChanged', handler);

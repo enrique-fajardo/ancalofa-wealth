@@ -15,14 +15,14 @@ export async function GET() {
     const db = getDb();
     const TRM = 4200; // fallback TRM
 
-    // Get active positions
+    // Get active positions — include account sleeve as fallback
     const positions = db.prepare(
-      `SELECT p.*, a.currency as acct_currency FROM positions p
+      `SELECT p.*, a.currency as acct_currency, a.sleeve as acct_sleeve FROM positions p
        JOIN accounts a ON p.account_id = a.account_id
        WHERE p.is_active = 1`
     ).all() as Array<{
-      sleeve?: string; position_type?: string; current_value?: number;
-      cost_basis: number; cost_currency: string;
+      sleeve?: string; acct_sleeve?: string; position_type?: string;
+      current_value?: number; cost_basis: number; cost_currency: string;
     }>;
 
     // Compute total portfolio value in COP
@@ -34,7 +34,8 @@ export async function GET() {
       const valCOP = pos.cost_currency === 'USD' ? val * TRM : val;
       totalCOP += valCOP;
 
-      const sleeve = pos.sleeve || pos.position_type || 'cash';
+      // Prefer position-level sleeve, then account-level sleeve, then position_type
+      const sleeve = pos.sleeve || pos.acct_sleeve || pos.position_type || 'cash';
       sleeveTotals[sleeve] = (sleeveTotals[sleeve] ?? 0) + valCOP;
     }
 
