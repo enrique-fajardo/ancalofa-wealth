@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "ANCALOFA Wealth",
+    "tagline": "Family Wealth Management Platform"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "portfolio": "Portfolio",
+    "alerts": "Alerts",
+    "maturities": "Maturities",
+    "pensions": "Pensions",
+    "history": "History",
+    "manage": "Manage",
+    "import": "Import",
+    "calendar": "DIAN Calendar",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Portfolio Overview",
+    "subtitle": "Real-time portfolio summary",
+    "total_cop": "Total Portfolio (COP)",
+    "total_usd": "Total Portfolio (USD)",
+    "mtd_return": "MTD Return",
+    "ytd_return": "YTD Return",
+    "active_accounts": "Active Accounts",
+    "allocation": "Portfolio Allocation",
+    "allocation_subtitle": "Target vs. actual allocation by sleeve",
+    "alerts": "Active Alerts",
+    "alerts_subtitle": "Recent notifications requiring attention",
+    "market": "Market Data",
+    "market_subtitle": "Key market indicators",
+    "investors": "Portfolio by Investor",
+    "investors_subtitle": "Breakdown by family member",
+    "view_all": "View All",
+    "no_alerts": "No active alerts"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Detailed view of all investment positions",
+    "filter_investor": "Filter by Investor",
+    "filter_type": "Filter by Type",
+    "filter_currency": "Filter by Currency",
+    "all": "All",
+    "symbol": "Symbol",
+    "description": "Description",
+    "account": "Account",
+    "quantity": "Qty",
+    "cost_basis": "Cost Basis",
+    "current_value": "Current Value",
+    "pnl": "P&L",
+    "pnl_pct": "P&L %",
+    "by_class": "By Asset Class",
+    "total_value": "Total Value",
+    "positions": "Positions"
+  },
+  "alerts": {
+    "title": "Alert Center",
+    "subtitle": "Monitor and manage all portfolio alerts",
+    "filter_severity": "Filter by Severity",
+    "all_severities": "All Severities",
+    "critical": "Critical",
+    "warning": "Warning",
+    "notice": "Notice",
+    "info": "Info",
+    "acknowledge": "Acknowledge",
+    "acknowledged": "Acknowledged",
+    "active_alerts": "Active Alerts",
+    "total_alerts": "Total Alerts",
+    "critical_count": "Critical",
+    "no_alerts": "No alerts matching your filters"
+  },
+  "table": {
+    "sleeve": "Sleeve",
+    "description": "Description",
+    "target": "Target %",
+    "actual": "Actual %",
+    "drift": "Drift",
+    "status": "Status",
+    "no_data": "No data available"
+  },
+  "status": {
+    "on_target": "On Target",
+    "over": "Over",
+    "under": "Under"
+  },
+  "common": {
+    "search": "Search...",
+    "loading": "Loading...",
+    "coming_soon": "Coming Soon",
+    "coming_soon_desc": "This feature is under development and will be available in a future update.",
+    "last_updated": "Last updated",
+    "accounts": "accounts",
+    "of_portfolio": "of portfolio"
+  },
+  "severity": {
+    "P1": "Critical",
+    "P2": "Warning",
+    "P3": "Notice",
+    "P4": "Info"
+  }
+}

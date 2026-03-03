@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+/* ============================================
+   ANCALOFA WEALTH — Design System Tokens
+   Tailwind v4 CSS-based configuration
+   ============================================ */
+
+@theme inline {
+  /* ---- Primary Colors ---- */
+  --color-primary: #00529F;
+  --color-primary-light: #1a6ab5;
+  --color-primary-dark: #003d77;
+  --color-primary-50: #e6eef6;
+  --color-primary-100: #ccdded;
+  --color-primary-200: #99bbdb;
+  --color-primary-300: #6699c9;
+  --color-primary-400: #3377b7;
+  --color-primary-500: #00529F;
+  --color-primary-600: #00427f;
+  --color-primary-700: #003160;
+  --color-primary-800: #002140;
+  --color-primary-900: #001020;
+
+  /* ---- Accent Colors ---- */
+  --color-accent: #FEBE10;
+  --color-accent-light: #fed740;
+  --color-accent-dark: #e5ab0e;
+  --color-accent-50: #fff8e1;
+  --color-accent-100: #ffecb3;
+  --color-accent-200: #ffe082;
+  --color-accent-300: #ffd54f;
+  --color-accent-400: #feca28;
+  --color-accent-500: #FEBE10;
+  --color-accent-600: #e5ab0e;
+  --color-accent-700: #c9960c;
+  --color-accent-800: #ad810a;
+  --color-accent-900: #7a5b07;
+
+  /* ---- Purple ---- */
+  --color-purple: #8A2BE2;
+  --color-purple-light: #a855f7;
+  --color-purple-dark: #6d1fc0;
+  --color-purple-50: #f3e8fd;
+  --color-purple-100: #e7d1fb;
+  --color-purple-500: #8A2BE2;
+
+  /* ---- Semantic Colors ---- */
+  --color-success: #14853D;
+  --color-success-light: #d0e7d8;
+  --color-warning: #FB8C00;
+  --color-warning-light: #fee4cc;
+  --color-error: #ED002A;
+  --color-error-light: #fbccd3;
+  --color-info: #019EFF;
+  --color-info-light: #cce9ff;
+
+  /* ---- Neutral Greys ---- */
+  --color-dark: #333333;
+  --color-neutral: #8B8B8E;
+  --color-gray-50: #F8FAFB;
+  --color-gray-100: #F0F2F4;
+  --color-gray-200: #E2E5E9;
+  --color-gray-300: #CDD1D6;
+  --color-gray-400: #A0A4A8;
+  --color-gray-500: #8B8B8E;
+  --color-gray-600: #6B6F73;
+  --color-gray-700: #4A4D51;
+  --color-gray-800: #333333;
+  --color-gray-900: #1A1D21;
+
+  /* ---- Surface Colors ---- */
+  --color-surface: #FFFFFF;
+  --color-background: #F8FAFB;
+  --color-foreground: #333333;
+
+  /* ---- Font Family ---- */
+  --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+
+  /* ---- Font Sizes ---- */
+  --text-xs: 0.6875rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.75rem;
+  --text-sm--line-height: 1.125rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.375rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.5rem;
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.10), 0 8px 10px rgba(0, 0, 0, 0.04);
+
+  /* ---- Spacing ---- */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+  --spacing-4xl: 64px;
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+/* ============================================
+   Glass Effect Utilities
+   ============================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 229, 233, 0.6);
+}
+
+.glass-dark {
+  background: rgba(0, 82, 159, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+   Sidebar Active Indicator
+   ============================================ */
+
+.sidebar-item-active {
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 3px solid var(--color-accent);
+}
+
+/* ============================================
+   Transitions
+   ============================================ */
+
+.transition-default {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   Metric Value Styling
+   ============================================ */
+
+.metric-value {
+  font-size: clamp(0.875rem, 8cqw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.metric-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-500);
+}
+
+/* ============================================
+   Data Table
+   ============================================ */
+
+.table-header {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-500);
+}
+
+.table-row-hover:hover {
+  background: var(--color-gray-50);
+}

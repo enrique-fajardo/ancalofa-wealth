@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "ANCALOFA Wealth",
+    "tagline": "Plataforma de Gestión Patrimonial Familiar"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "portfolio": "Portafolio",
+    "alerts": "Alertas",
+    "maturities": "Vencimientos",
+    "pensions": "Pensiones",
+    "history": "Historial",
+    "manage": "Gestión",
+    "import": "Importar",
+    "calendar": "Calendario DIAN",
+    "settings": "Configuración"
+  },
+  "dashboard": {
+    "title": "Resumen del Portafolio",
+    "subtitle": "Resumen del portafolio en tiempo real",
+    "total_cop": "Portafolio Total (COP)",
+    "total_usd": "Portafolio Total (USD)",
+    "mtd_return": "Retorno Mes",
+    "ytd_return": "Retorno Año",
+    "active_accounts": "Cuentas Activas",
+    "allocation": "Asignación del Portafolio",
+    "allocation_subtitle": "Asignación objetivo vs. actual por categoría",
+    "alerts": "Alertas Activas",
+    "alerts_subtitle": "Notificaciones recientes que requieren atención",
+    "market": "Datos del Mercado",
+    "market_subtitle": "Indicadores clave del mercado",
+    "investors": "Portafolio por Inversionista",
+    "investors_subtitle": "Desglose por miembro de la familia",
+    "view_all": "Ver Todos",
+    "no_alerts": "No hay alertas activas"
+  },
+  "portfolio": {
+    "title": "Portafolio",
+    "subtitle": "Vista detallada de todas las posiciones de inversión",
+    "filter_investor": "Filtrar por Inversionista",
+    "filter_type": "Filtrar por Tipo",
+    "filter_currency": "Filtrar por Moneda",
+    "all": "Todos",
+    "symbol": "Símbolo",
+    "description": "Descripción",
+    "account": "Cuenta",
+    "quantity": "Cant.",
+    "cost_basis": "Costo Base",
+    "current_value": "Valor Actual",
+    "pnl": "G/P",
+    "pnl_pct": "G/P %",
+    "by_class": "Por Clase de Activo",
+    "total_value": "Valor Total",
+    "positions": "Posiciones"
+  },
+  "alerts": {
+    "title": "Centro de Alertas",
+    "subtitle": "Monitorear y gestionar todas las alertas del portafolio",
+    "filter_severity": "Filtrar por Severidad",
+    "all_severities": "Todas las Severidades",
+    "critical": "Crítica",
+    "warning": "Advertencia",
+    "notice": "Aviso",
+    "info": "Información",
+    "acknowledge": "Confirmar",
+    "acknowledged": "Confirmada",
+    "active_alerts": "Alertas Activas",
+    "total_alerts": "Total Alertas",
+    "critical_count": "Críticas",
+    "no_alerts": "No hay alertas que coincidan con sus filtros"
+  },
+  "table": {
+    "sleeve": "Categoría",
+    "description": "Descripción",
+    "target": "Objetivo %",
+    "actual": "Actual %",
+    "drift": "Desviación",
+    "status": "Estado",
+    "no_data": "No hay datos disponibles"
+  },
+  "status": {
+    "on_target": "En Meta",
+    "over": "Sobre",
+    "under": "Bajo"
+  },
+  "common": {
+    "search": "Buscar...",
+    "loading": "Cargando...",
+    "coming_soon": "Próximamente",
+    "coming_soon_desc": "Esta función está en desarrollo y estará disponible en una actualización futura.",
+    "last_updated": "Última actualización",
+    "accounts": "cuentas",
+    "of_portfolio": "del portafolio"
+  },
+  "severity": {
+    "P1": "Crítica",
+    "P2": "Advertencia",
+    "P3": "Aviso",
+    "P4": "Información"
+  }
+}
