@@ -1,1 +1,1 @@
-{"version":"0.0.1","configurations":[{"name":"Ancalofa Wealth","runtimeExecutable":"npm","runtimeArgs":["run","dev"],"port":3001}]}
+{"version":"0.0.1","configurations":[{"name":"Ancalofa Wealth Frontend","runtimeExecutable":"npm","runtimeArgs":["run","dev"],"port":3000}]}

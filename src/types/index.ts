@@ -222,7 +222,7 @@ export interface CockpitData {
 export interface Insight {
   id: string;
   category: 'risk' | 'alert' | 'opportunity' | 'recommendation' | 'status';
-  severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
+  severity: 'P1' | 'P2' | 'P3' | 'P4';
   title: string;
   message: string;
   data?: Record<string, unknown>;

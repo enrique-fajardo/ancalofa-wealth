@@ -77,7 +77,7 @@ export default function MaturityTimeline({ insights }: MaturityTimelineProps) {
                   </td>
                   <td className="py-2 pr-3">
                     <p className="font-medium text-gray-900 text-sm">{item.title.split(' matures')[0].split(' EXPIRED')[0]}</p>
-                    <p className="text-xs text-gray-400">{item.detail.split(' | Maturity:')[0].split(') |')[0]})</p>
+                    <p className="text-xs text-gray-400">{(item.message || '').split(' | Maturity:')[0].split(') |')[0]})</p>
                   </td>
                   <td className="py-2 pr-3 text-right">
                     <span className={cn('font-semibold', config.color)}>
