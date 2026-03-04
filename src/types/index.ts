@@ -122,6 +122,7 @@ export interface PortfolioSummary {
   data_coverage_months?: number;
   is_partial_period?: boolean;
   // Period-specific (from valuations)
+  period_capital_cop?: number;
   period_returns_cop?: number;
   period_return_pct?: number;
   has_period_data?: boolean;

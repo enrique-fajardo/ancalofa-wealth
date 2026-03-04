@@ -54,6 +54,7 @@ export async function GET(req: NextRequest) {
     // Period-based P&L — compute from valuations table
     let periodReturnsCOP = returnsCOP;      // fallback: total returns
     let periodReturnPct  = totalReturnPct;  // fallback: total return %
+    let periodCapitalCOP = capitalCOP;      // fallback: all-time cost basis
     let hasPeriodData    = false;
 
     if (period !== 'total') {
@@ -87,6 +88,7 @@ export async function GET(req: NextRequest) {
           `).get(fromDate) as { total_cop: number | null } | undefined;
 
           if (startSnap?.total_cop) {
+            periodCapitalCOP = startSnap.total_cop;
             periodReturnsCOP = totalCOP - startSnap.total_cop;
             periodReturnPct  = (periodReturnsCOP / startSnap.total_cop) * 100;
             hasPeriodData    = true;
@@ -125,6 +127,7 @@ export async function GET(req: NextRequest) {
       active_positions: positions.length,
       active_accounts: accounts.length,
       // Period-specific fields (from valuations)
+      period_capital_cop: periodCapitalCOP,
       period_returns_cop: periodReturnsCOP,
       period_return_pct: periodReturnPct,
       has_period_data: hasPeriodData,
