@@ -131,26 +131,29 @@ function PortfolioContent() {
                 )}
               </div>
               <p className="text-xl font-semibold text-gray-900 mt-1">
-                {formatCOPCompact(summary.period_capital_cop ?? summary.capital_cop)}
+                {period !== 'total' && !summary.has_period_data
+                  ? '—'
+                  : formatCOPCompact(summary.period_capital_cop ?? summary.capital_cop)}
               </p>
-              {period !== 'total' && !summary.has_period_data && (
-                <p className="text-xs text-gray-400 mt-1">(total)</p>
-              )}
             </Card>
             <Card glass hover={false} padding="md">
               <div className="flex items-center justify-between">
                 <p className="metric-label">{t('dashboard.returns')} (COP)</p>
-                {period !== 'total' && (
+                {period !== 'total' && summary.has_period_data && (
                   <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase">
                     {period}
                   </span>
                 )}
               </div>
               <p className="text-xl font-semibold text-gray-900 mt-1">
-                {formatCOPCompact(Math.abs(summary.period_returns_cop ?? summary.returns_cop))}
+                {period !== 'total' && !summary.has_period_data
+                  ? '—'
+                  : formatCOPCompact(Math.abs(summary.period_returns_cop ?? summary.returns_cop))}
               </p>
               <p className="text-xs text-gray-500 mt-1">
-                {formatPercent(Math.abs(summary.period_return_pct ?? summary.total_return_pct))}
+                {period !== 'total' && !summary.has_period_data
+                  ? '—'
+                  : formatPercent(Math.abs(summary.period_return_pct ?? summary.total_return_pct))}
               </p>
               {(() => {
                 const pill = wealthPill(
