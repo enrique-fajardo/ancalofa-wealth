@@ -3,20 +3,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { PeriodKey } from '@/types';
 
-function getInitialPeriod(): PeriodKey {
-  if (typeof window !== 'undefined') {
+export function usePeriod() {
+  // Always start with 'total' — matches server render, avoids hydration mismatch.
+  // Sync from URL/localStorage after mount (client only).
+  const [period, setPeriodState] = useState<PeriodKey>('total');
+
+  useEffect(() => {
+    // Read stored/URL period once after mount
     try {
       const url = new URL(window.location.href);
       const param = url.searchParams.get('period') as PeriodKey | null;
-      if (param) return param;
+      if (param) { setPeriodState(param); return; }
     } catch { /* ignore */ }
-    return (localStorage.getItem('selectedPeriod') as PeriodKey) || 'total';
-  }
-  return 'total';
-}
-
-export function usePeriod() {
-  const [period, setPeriodState] = useState<PeriodKey>(getInitialPeriod);
+    const stored = (localStorage.getItem('selectedPeriod') as PeriodKey) || 'total';
+    if (stored !== 'total') setPeriodState(stored);
+  }, []);
 
   useEffect(() => {
     const handler = () => {
