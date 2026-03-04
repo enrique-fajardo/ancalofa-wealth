@@ -138,7 +138,11 @@ function PortfolioContent() {
                 {formatCOPCompact(Math.abs(summary.period_returns_cop ?? summary.returns_cop))}
               </p>
               <p className="text-xs text-gray-500 mt-1">
-                {formatPercent(summary.total_return_pct)}
+                {formatPercent(Math.abs(
+                  summary.capital_cop > 0
+                    ? ((summary.period_returns_cop ?? summary.returns_cop) / summary.capital_cop) * 100
+                    : summary.total_return_pct
+                ))}
               </p>
               {(() => {
                 const pill = wealthPill(
