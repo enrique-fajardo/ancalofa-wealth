@@ -2,13 +2,25 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import api from '@/lib/api';
-import type { Position, Account, PortfolioSummary as PortfolioSummaryType } from '@/types';
+import type { Position, Account, PortfolioSummary as PortfolioSummaryType, InflationCumulative } from '@/types';
 import { useLocale } from '@/hooks/useLocale';
 import { usePeriod } from '@/hooks/usePeriod';
 import { formatCOP, formatUSD, formatCOPCompact, formatUSDCompact, formatPercent, cn } from '@/lib/formatters';
 import PeriodSelector from '@/components/ui/PeriodSelector';
 import Card from '@/components/ui/Card';
 import DataTable from '@/components/ui/DataTable';
+
+type PillType = 'success' | 'warning' | 'error';
+function wealthPill(
+  returns: number | null | undefined,
+  inflation: number | null | undefined,
+  labels: { loss: string; risk: string; growth: string }
+): { label: string; type: PillType } | undefined {
+  if (returns == null || inflation == null) return undefined;
+  if (returns < inflation)     return { label: labels.loss,   type: 'error' };
+  if (returns < inflation + 1) return { label: labels.risk,   type: 'warning' };
+  return                              { label: labels.growth, type: 'success' };
+}
 
 function PortfolioContent() {
   const { t } = useLocale();
@@ -17,6 +29,7 @@ function PortfolioContent() {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [summary, setSummary] = useState<PortfolioSummaryType | null>(null);
   const [filterCurrency, setFilterCurrency] = useState<string>('all');
+  const [inflation, setInflation] = useState<InflationCumulative | null>(null);
 
   // Load positions and accounts once
   useEffect(() => {
@@ -26,10 +39,15 @@ function PortfolioContent() {
     });
   }, []);
 
-  // Load summary whenever period changes
+  // Load summary + inflation whenever period changes
   useEffect(() => {
     let stale = false;
-    api.getPortfolioSummary(period).then(s => { if (!stale) setSummary(s); });
+    Promise.all([
+      api.getPortfolioSummary(period),
+      api.getInflationCumulative(period),
+    ]).then(([s, inf]) => {
+      if (!stale) { setSummary(s); setInflation(inf); }
+    });
     return () => { stale = true; };
   }, [period]);
 
@@ -109,10 +127,29 @@ function PortfolioContent() {
             </Card>
             <Card glass hover={false} padding="md">
               <p className="metric-label">{t('dashboard.returns')} (COP)</p>
-              <p className={cn('text-xl font-semibold mt-1', summary.returns_cop >= 0 ? 'text-success' : 'text-error')}>{formatCOPCompact(summary.returns_cop)}</p>
-              <p className={cn('text-xs mt-1', summary.returns_cop >= 0 ? 'text-success' : 'text-error')}>
-                {formatPercent(summary.capital_cop > 0 ? (summary.returns_cop / summary.capital_cop) * 100 : 0)}
+              <p className="text-xl font-semibold text-gray-900 mt-1">
+                {formatCOPCompact(Math.abs(summary.returns_cop))}
               </p>
+              <p className="text-xs text-gray-500 mt-1">
+                {formatPercent(Math.abs(summary.capital_cop > 0 ? (summary.returns_cop / summary.capital_cop) * 100 : 0))}
+              </p>
+              {(() => {
+                const pill = wealthPill(
+                  summary.capital_cop > 0 ? (summary.returns_cop / summary.capital_cop) * 100 : null,
+                  inflation?.ipc_co ?? null,
+                  { loss: t('dashboard.wealth_loss'), risk: t('dashboard.wealth_risk'), growth: t('dashboard.wealth_growth') }
+                );
+                return pill ? (
+                  <div className={cn(
+                    'mt-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold',
+                    pill.type === 'success' && 'bg-success/10 text-success',
+                    pill.type === 'warning' && 'bg-warning/10 text-warning',
+                    pill.type === 'error'   && 'bg-error/10 text-error',
+                  )}>
+                    {pill.label}
+                  </div>
+                ) : null;
+              })()}
             </Card>
             <Card glass hover={false} padding="md">
               <p className="metric-label">{t('dashboard.balance')} (USD)</p>
