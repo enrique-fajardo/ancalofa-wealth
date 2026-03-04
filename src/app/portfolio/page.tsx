@@ -138,14 +138,11 @@ function PortfolioContent() {
                 {formatCOPCompact(Math.abs(summary.period_returns_cop ?? summary.returns_cop))}
               </p>
               <p className="text-xs text-gray-500 mt-1">
-                {formatPercent(Math.abs(summary.period_return_pct ?? summary.total_return_pct))}
-                {period !== 'total' && !summary.has_period_data && (
-                  <span className="text-gray-400 ml-1">(total)</span>
-                )}
+                {formatPercent(summary.total_return_pct)}
               </p>
               {(() => {
                 const pill = wealthPill(
-                  summary.period_return_pct ?? summary.total_return_pct,
+                  summary.total_return_pct,
                   inflation?.ipc_co ?? null,
                   { loss: t('dashboard.wealth_loss'), risk: t('dashboard.wealth_risk'), growth: t('dashboard.wealth_growth') }
                 );
