@@ -76,22 +76,37 @@ export async function GET(req: NextRequest) {
           fromDate = d.toISOString().slice(0, 10);
         }
 
+        // Max allowable gap (days) between the found snapshot and the period start.
+        // If the nearest snapshot is older than this, we have no meaningful data.
+        const MAX_GAP_DAYS: Record<string, number> = {
+          'mtd': 5, 'ytd': 35, '12m': 60, '3y': 90, '5y': 120,
+        };
+
         if (fromDate) {
           // Find the most recent valuation snapshot at or before the period start
           const startSnap = db.prepare(`
-            SELECT SUM(value_cop) as total_cop
+            SELECT
+              MAX(valuation_date) as snap_date,
+              SUM(value_cop)      as total_cop
             FROM valuations
             WHERE valuation_date = (
               SELECT MAX(valuation_date) FROM valuations WHERE valuation_date <= ?
             )
             AND value_cop IS NOT NULL
-          `).get(fromDate) as { total_cop: number | null } | undefined;
+          `).get(fromDate) as { snap_date: string | null; total_cop: number | null } | undefined;
 
-          if (startSnap?.total_cop) {
-            periodCapitalCOP = startSnap.total_cop;
-            periodReturnsCOP = totalCOP - startSnap.total_cop;
-            periodReturnPct  = (periodReturnsCOP / startSnap.total_cop) * 100;
-            hasPeriodData    = true;
+          if (startSnap?.total_cop && startSnap.snap_date) {
+            // Reject snapshot if it's too far from the requested period start
+            const gapMs = new Date(fromDate).getTime() - new Date(startSnap.snap_date).getTime();
+            const gapDays = gapMs / (1000 * 60 * 60 * 24);
+            const maxGap = MAX_GAP_DAYS[period] ?? 60;
+
+            if (gapDays <= maxGap) {
+              periodCapitalCOP = startSnap.total_cop;
+              periodReturnsCOP = totalCOP - startSnap.total_cop;
+              periodReturnPct  = (periodReturnsCOP / startSnap.total_cop) * 100;
+              hasPeriodData    = true;
+            }
           }
         }
       } catch { /* valuations table may not exist */ }
