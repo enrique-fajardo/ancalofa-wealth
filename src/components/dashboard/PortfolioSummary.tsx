@@ -74,8 +74,8 @@ export default function PortfolioSummaryRow({ data, inflation }: PortfolioSummar
         />
       </div>
 
-      {/* Row 2: Returns ($) | Returns (%) | Inflation (IPC) | Active Accounts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Row 2: Returns ($) | Returns (%) Cumulative | Returns (%) Annualized | Inflation (IPC) | Active Accounts */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Card 1: Returns ($) */}
         <MetricCard
           label={t('dashboard.returns_absolute')}
@@ -125,7 +125,24 @@ export default function PortfolioSummaryRow({ data, inflation }: PortfolioSummar
             growth: t('dashboard.wealth_growth'),
           })}
         />
-        {/* Card 4: Active Accounts */}
+        {/* Card 4: Inflation IPC Colombia */}
+        <MetricCard
+          label={t('dashboard.inflation_ipc')}
+          value={
+            inflation == null || inflation.months === 0 || inflation.ipc_co == null
+              ? '—'
+              : formatPercent(inflation.ipc_co, true)
+          }
+          delta={
+            inflation?.months && inflation.months > 0
+              ? `${(inflation.months / 12).toFixed(1)} yr`
+              : undefined
+          }
+          deltaType="neutral"
+          icon={Activity}
+          iconColor="text-warning"
+        />
+        {/* Card 5: Active Accounts */}
         <MetricCard
           label={t('dashboard.active_accounts')}
           value={`${data.active_accounts} ${t('common.accounts')}`}

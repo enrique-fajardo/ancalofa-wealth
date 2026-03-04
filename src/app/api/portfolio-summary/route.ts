@@ -51,9 +51,10 @@ export async function GET(req: NextRequest) {
     const totalCapital = capitalCOP + (capitalUSD * TRM);
     const totalReturnPct = totalCapital > 0 ? (totalPnl / totalCapital) * 100 : 0;
 
-    // Period-based return — use portfolio_snapshots if available
-    let returnPct = totalReturnPct;
-    let dataCoverageMonths = 0;
+    // Period-based P&L — compute from valuations table
+    let periodReturnsCOP = returnsCOP;      // fallback: total returns
+    let periodReturnPct  = totalReturnPct;  // fallback: total return %
+    let hasPeriodData    = false;
 
     if (period !== 'total') {
       try {
@@ -75,17 +76,23 @@ export async function GET(req: NextRequest) {
         }
 
         if (fromDate) {
-          const snapshots = db.prepare(`
-            SELECT return_pct FROM portfolio_snapshots WHERE date >= ? ORDER BY date ASC
-          `).all(fromDate) as Array<{ return_pct: number }>;
+          // Find the most recent valuation snapshot at or before the period start
+          const startSnap = db.prepare(`
+            SELECT SUM(value_cop) as total_cop
+            FROM valuations
+            WHERE valuation_date = (
+              SELECT MAX(valuation_date) FROM valuations WHERE valuation_date <= ?
+            )
+            AND value_cop IS NOT NULL
+          `).get(fromDate) as { total_cop: number | null } | undefined;
 
-          if (snapshots.length > 0) {
-            const compound = snapshots.reduce((prod, s) => prod * (1 + s.return_pct / 100), 1);
-            returnPct = (compound - 1) * 100;
-            dataCoverageMonths = snapshots.length;
+          if (startSnap?.total_cop) {
+            periodReturnsCOP = totalCOP - startSnap.total_cop;
+            periodReturnPct  = (periodReturnsCOP / startSnap.total_cop) * 100;
+            hasPeriodData    = true;
           }
         }
-      } catch { /* table may not exist */ }
+      } catch { /* valuations table may not exist */ }
     }
 
     // Annualized return — find earliest transaction date for CAGR
@@ -117,9 +124,10 @@ export async function GET(req: NextRequest) {
       annualized_return_pct: annualizedReturnPct,
       active_positions: positions.length,
       active_accounts: accounts.length,
-      return_pct: returnPct,
-      data_coverage_months: dataCoverageMonths,
-      is_partial_period: period !== 'total' && dataCoverageMonths === 0,
+      // Period-specific fields (from valuations)
+      period_returns_cop: periodReturnsCOP,
+      period_return_pct: periodReturnPct,
+      has_period_data: hasPeriodData,
     });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

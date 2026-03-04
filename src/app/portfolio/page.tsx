@@ -126,16 +126,26 @@ function PortfolioContent() {
               <p className="text-xl font-semibold text-gray-900 mt-1">{formatCOPCompact(summary.capital_cop)}</p>
             </Card>
             <Card glass hover={false} padding="md">
-              <p className="metric-label">{t('dashboard.returns')} (COP)</p>
+              <div className="flex items-center justify-between">
+                <p className="metric-label">{t('dashboard.returns')} (COP)</p>
+                {period !== 'total' && (
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase">
+                    {period}
+                  </span>
+                )}
+              </div>
               <p className="text-xl font-semibold text-gray-900 mt-1">
-                {formatCOPCompact(Math.abs(summary.returns_cop))}
+                {formatCOPCompact(Math.abs(summary.period_returns_cop ?? summary.returns_cop))}
               </p>
               <p className="text-xs text-gray-500 mt-1">
-                {formatPercent(Math.abs(summary.capital_cop > 0 ? (summary.returns_cop / summary.capital_cop) * 100 : 0))}
+                {formatPercent(Math.abs(summary.period_return_pct ?? summary.total_return_pct))}
+                {period !== 'total' && !summary.has_period_data && (
+                  <span className="text-gray-400 ml-1">(total)</span>
+                )}
               </p>
               {(() => {
                 const pill = wealthPill(
-                  summary.capital_cop > 0 ? (summary.returns_cop / summary.capital_cop) * 100 : null,
+                  summary.period_return_pct ?? summary.total_return_pct,
                   inflation?.ipc_co ?? null,
                   { loss: t('dashboard.wealth_loss'), risk: t('dashboard.wealth_risk'), growth: t('dashboard.wealth_growth') }
                 );

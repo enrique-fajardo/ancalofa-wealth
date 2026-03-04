@@ -121,6 +121,10 @@ export interface PortfolioSummary {
   annualized_return_pct?: number;
   data_coverage_months?: number;
   is_partial_period?: boolean;
+  // Period-specific (from valuations)
+  period_returns_cop?: number;
+  period_return_pct?: number;
+  has_period_data?: boolean;
 }
 
 export interface AllocationTarget {
