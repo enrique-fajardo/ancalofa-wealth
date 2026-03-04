@@ -46,8 +46,8 @@ export default function PeriodSelector({
     <div className={cn('flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-1 w-fit shadow-sm', className)}>
       {PERIOD_OPTIONS.map(key => {
         const fullMonths = PERIOD_FULL_MONTHS[key];
-        const isDisabled = fullMonths !== undefined && coverage < PERIOD_MIN_MONTHS[key];
-        const isPartial = !isDisabled && fullMonths !== undefined && coverage < fullMonths;
+        const isDisabled = fullMonths !== undefined && dataCoverageMonths != null && coverage < PERIOD_MIN_MONTHS[key];
+        const isPartial = !isDisabled && fullMonths !== undefined && dataCoverageMonths != null && coverage < fullMonths;
         const isSelected = period === key;
 
         return (
